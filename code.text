@@ -1,0 +1,256 @@
+node app.js
+node hash.js
+KLW PASS TIDAK BISA
+
+
+customer
+owner
+courier
+admin
+
+-----------------------------------------------------------------------------------------------------------------------
+1. AUTH
+-----------------------------------------------------------------------------------------------------------------------
+Register Customer
+POST 
+http://localhost:3000/auth/register
+{
+  "full_name": "Budi Customer",
+  "email": "customer@mail.com",
+  "password": "123456",
+  "role": "customer"
+}
+
+Register Courier
+POST 
+http://localhost:3000/auth/register
+{
+  "full_name": "Kurir Andi",
+  "email": "courier@mail.com",
+  "password": "123456",
+  "role": "courier"
+}
+
+Register Owner
+POST 
+http://localhost:3000/auth/register
+{
+  "full_name": "Owner Laundry",
+  "email": "owner@mail.com",
+  "password": "123456",
+  "role": "owner"
+}
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Login
+POST 
+http://localhost:3000/auth/login
+TOKEN
+{
+  "email": "customer@mail.com",
+  "password": "123456"
+}
+
+Login Admin
+POST 
+http://localhost:3000/auth/login
+ROKEN : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJlbWFpbCI6InN1Z2VzdGlAZXhhbXBsZS5jb20iLCJyb2xlIjoib3duZXIiLCJpYXQiOjE3NzgzNDEyNTAsImV4cCI6MTc3ODk0NjA1MH0.daTTuaapKWoaGfAX6iIf1kyDETzk9W1fT38XO8SFiMk
+{
+  "email": "admin@laundry.com",
+  "password": "admin123"
+}
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Profile
+GET 
+http://localhost:3000/auth/profile
+TOKEN
+
+Logout
+POST 
+http://localhost:3000/auth/logout
+TOKEN
+
+
+-----------------------------------------------------------------------------------------------------------------------
+2. SERVICES
+-----------------------------------------------------------------------------------------------------------------------
+Get All Services
+GET 
+http://localhost:3000/services
+TOKEN CUSTUMER
+
+Get Service Detail
+GET 
+http://localhost:3000/services/1
+TOKEN CUSTUMER
+
+
+-----------------------------------------------------------------------------------------------------------------------
+3. ORDERS
+-----------------------------------------------------------------------------------------------------------------------
+Create Order
+POST 
+http://localhost:3000/orders
+TOKEN CUSTOMER
+{
+  "service_id": SVC001,
+  "pickup_address": "Jl. Surabaya No.10",
+  "pickup_lat": -7.2575,
+  "pickup_lng": 112.7521,
+  "pickup_scheduled_at": "2026-05-10 10:00:00"
+}
+
+Get My Orders
+GET 
+http://localhost:3000/orders/my-orders
+TOKEN CUSTOMER
+
+Get Order Detail
+GET 
+http://localhost:3000/orders/ORD1778342965959
+TOKEN CUSTOMER
+
+Update Order Status
+PATCH 
+http://localhost:3000/orders/ORD1778342965959/status
+TOKEN OWNER
+{
+  "status": "confirmed"
+}
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Assign Courier
+POST 
+http://localhost:3000/orders/ORD1778342965959/assign-courier
+TOKEN OWNER
+{
+  "courier_id": 1,
+  "task_type": "pickup"
+}
+
+Track Order
+GET 
+http://localhost:3000/orders/ORD1778342965959/tracking
+TOKEN CUSTOMER
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Rate Order
+POST 
+http://localhost:3000/orders/ORD1778342965959/ratings
+TOKEN CUSTOMER
+{
+  "rating": 5,
+  "review": "Laundry sangat bersih"
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+4. PAYMENTS
+-----------------------------------------------------------------------------------------------------------------------
+Create Payment
+POST 
+http://localhost:3000/payments
+TOKEN CUSTOMER
+{
+  "invoice_id": "INV1778342965998",
+  "payment_method": "virtual_account"
+}
+
+Payment Callback
+POST 
+http://localhost:3000/payments/callback
+{
+  "payment_id": "PAY1778345148811",
+  "status": "success"
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+5. COURIERS
+-----------------------------------------------------------------------------------------------------------------------
+Update Courier Location
+PATCH 
+http://localhost:3000/couriers/me/location
+TOKEN COURIER
+{
+  "lat": -7.250445,
+  "lng": 112.768845,
+  "assignment_id": "ASG1778346277345"
+}
+
+Update Task Status
+PATCH 
+http://localhost:3000/couriers/tasks/ASG1778346277345/status
+TOKEN COURIER
+{
+  "status": "on_the_way"
+}
+
+Get My Tasks
+GET 
+http://localhost:3000/couriers/me/tasks
+TOKEN COURIER_
+
+Get Task History
+GET 
+http://localhost:3000/couriers/me/tasks/history
+TOKEN COURIER
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+6. SUBSCRIPTIONS
+-----------------------------------------------------------------------------------------------------------------------
+Subscription Plans
+GET 
+http://localhost:3000/subscriptions/plans
+
+Buy Subscription
+POST 
+http://localhost:3000/subscriptions
+TOKEN CUSTOMER
+{
+  "plan_id": "SUB001",
+  "auto_renew": true
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+7. NOTIFICATIONS
+-----------------------------------------------------------------------------------------------------------------------
+Get Notifications
+GET 
+http://localhost:3000/notifications
+TOKEN SEMUA USER
+
+Mark Notification As Read
+PATCH 
+http://localhost:3000/notifications/3/read
+TOKEN SEMUA USER
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+8. ADMIN
+-----------------------------------------------------------------------------------------------------------------------
+Dashboard Metrics
+GET 
+http://localhost:3000/admin/dashboard/metrics
+TOKEN ADMIN
+
+Verify User
+PATCH 
+http://localhost:3000/admin/users/2/verify
+TOKEN ADMIN
+{
+  "is_verified": true
+}
