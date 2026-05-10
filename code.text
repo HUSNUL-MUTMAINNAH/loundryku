@@ -288,3 +288,56 @@ TOKEN ADMIN
 {
   "is_verified": true
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+STATUS ORDER
+pending    :  Pesanan baru dibuat customer, belum diproses owner
+confirmed  :	Pesanan sudah diterima/dikonfirmasi owner
+picked_up  :	Laundry sudah dijemput kurir
+processing :  Laundry sedang dicuci/diproses
+ready	     :  Laundry selesai dicuci dan siap diantar
+delivered	 :  Laundry sudah diterima customer
+
+STATUS TUGAS KURIR
+assigned	 :  Kurir baru ditugaskan
+on_the_way :  Kurir sedang menuju lokasi
+arrived	   :  Kurir sudah sampai
+picked_up	 :  Laundry sudah diambil
+delivered	 :  Laundry sudah dikirim
+done	     :  Tugas selesai
+
+STATUS PAYMENT
+pending	   :  Menunggu pembayaran
+success	   :  Pembayaran berhasil
+failed	   :  Pembayaran gagal
+
+STATUS INVOICE
+unpaid	   :  Belum dibayar
+paid	     :  Sudah dibayar
+
+STATUS SUBSCRIPTION
+active     :  Langganan aktif
+
+STATUS VERIFIKASI USER
+0	         :  Belum diverifikasi
+1	         :  Sudah diverifikasi
+
+STATUS NOTIFIKASI
+0	         :  Belum dibaca
+1	         :  Sudah dibaca
+
+TASK TYPE KURIR
+pickup      :  ambil laundry
+delivery    :  antar laundry kembali
