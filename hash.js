@@ -1,3 +1,11 @@
 const bcrypt = require('bcrypt');
 
-bcrypt.hash('admin123', 10).then(console.log);
+async function generateHash() {
+  const password = 'password123';
+
+  const hash = await bcrypt.hash(password, 10);
+
+  console.log(hash);
+}
+
+generateHash();
