@@ -109,4 +109,53 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getProfile, logout };
+// PATCH /auth/profile — Update profil sendiri
+const updateProfile = async (req, res) => {
+  const { full_name, email, password } = req.body;
+  const user_id = req.user.user_id;
+
+  const fields = [];
+  const values = [];
+
+  if (full_name !== undefined) { fields.push('full_name = ?'); values.push(full_name); }
+
+  if (email !== undefined) {
+    // Cek email sudah dipakai user lain
+    const [existing] = await db.query(
+      'SELECT user_id FROM users WHERE email = ? AND user_id != ?', [email, user_id]
+    );
+    if (existing.length > 0) {
+      return res.status(409).json({ message: 'Email sudah digunakan akun lain.' });
+    }
+    fields.push('email = ?');
+    values.push(email);
+  }
+
+  if (password !== undefined) {
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password minimal 6 karakter.' });
+    }
+    const hashed = await bcrypt.hash(password, 10);
+    fields.push('password = ?');
+    values.push(hashed);
+  }
+
+  if (fields.length === 0) {
+    return res.status(400).json({ message: 'Tidak ada field yang diperbarui.' });
+  }
+
+  try {
+    values.push(user_id);
+    await db.query(`UPDATE users SET ${fields.join(', ')} WHERE user_id = ?`, values);
+
+    const [rows] = await db.query(
+      'SELECT user_id, full_name, email, role, is_verified, created_at FROM users WHERE user_id = ?',
+      [user_id]
+    );
+    return res.status(200).json({ message: 'Profil berhasil diperbarui.', data: rows[0] });
+  } catch (err) {
+    return res.status(500).json({ message: 'Server error.', error: err.message });
+  }
+};
+
+module.exports = { register, login, getProfile, logout, updateProfile };

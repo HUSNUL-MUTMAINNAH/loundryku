@@ -41,6 +41,7 @@ http://localhost:3000/auth/register
   "role": "owner"
 }
 
+
 -----------------------------------------------------------------------------------------------------------------------
 
 Login
@@ -73,6 +74,14 @@ POST
 http://localhost:3000/auth/logout
 TOKEN
 
+Update Profil
+PATCH 
+http://localhost:3000/auth/profile
+TOEN
+{ 
+  "full_name": "Budi Santoso Baru",
+  "password": "223456", 
+}
 
 -----------------------------------------------------------------------------------------------------------------------
 2. SERVICES
@@ -87,6 +96,31 @@ GET
 http://localhost:3000/services/1
 TOKEN CUSTUMER
 
+Create Service
+POST 
+http://localhost:3000/services
+TOKEN OWNER
+{ 
+  "service_id": "SVC004", 
+  "name": "Cuci Sepatu",
+  "description" : "Pisahkan baju berwarna", 
+  "price_per_kg": 15000 
+}
+
+Update Service
+PATCH 
+http://localhost:3000/services/SVC004
+TOKEN OWNER
+{ 
+  "price_per_kg": 18000,
+  "description" : "Pisahkan baju berwarna", 
+  "is_active": 1 
+}
+
+Delete Service
+DELETE 
+http://localhost:3000/services/SVC004
+TOKEN OWNER
 
 -----------------------------------------------------------------------------------------------------------------------
 3. ORDERS
